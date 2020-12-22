@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+    }
+
+    #item {
+      background-color: purple;
+      height: 150px;
+      width: 150px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="item">
+      
+    </div>
+  </div>
+  <script>
+    let offsetX = 0;
+    let offsetY = 0;
+    
+    let currentX;
+    let currentY;
+    
+    let initialX;
+    let initialY;
+
+    let active = false;
+
+    const item = document.getElementById('item');
+
+    const dragStart = ({ clientX, clientY }) => {
+      initialX = clientX - offsetX;
+      initialY = clientY - offsetY;
+
+      active = true;
+    };
+
+    const drag = (e) => {
+      e.preventDefault();
+      if (active) {
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+        
+        offsetX = currentX;
+        offsetY = currentY;
+
+        setTranslate(currentX, currentY, item);
+      }
+    };
+
+    const dragEnd = () => {
+      active = false;
+
+      initialX = offsetX;
+      initialY = offsetY;
+    }
+
+    const setTranslate = (x, y, el) => {
+      el.style.transform = `translate(${x}px, ${y}px)`;
+    };
+
+    item.addEventListener('mousedown', dragStart, false);
+    item.addEventListener('mouseup', dragEnd, false);
+    item.addEventListener('mousemove', drag, false);
+  </script>
+</body>
+</html>
